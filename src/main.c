@@ -2,6 +2,7 @@
 #include "links/links.h"
 #include "router/router.h"
 #include "utils/utils.h"
+#include "server/server.h"
 
 const char *ID;
 
@@ -17,6 +18,7 @@ int main(const int argc, char *argv[]) {
     line_separator();
     read_router_config();
     read_links_config();
+    init_server();
 
     return 0;
 }

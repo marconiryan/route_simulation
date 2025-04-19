@@ -11,4 +11,6 @@ add_executable(
         src/router/router.h
         src/utils/utils.c
         src/utils/utils.h
+        src/server/server.c
+        src/server/server.h
 )
