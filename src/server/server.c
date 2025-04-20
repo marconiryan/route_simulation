@@ -4,6 +4,7 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #define PORT 12345
 #define BUFF_SIZE 1024
@@ -48,7 +49,8 @@ static void listen_messages(const int sockfd) {
             exit(EXIT_FAILURE);
         }
 
-        printf("Received %zd bytes from %s:%d\n", bytes_received, inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+        printf("Received %zd bytes from %s:%d\n", bytes_received, inet_ntoa(client_addr.sin_addr),
+               ntohs(client_addr.sin_port));
         printf("Message: %s\n", buffer);
 
         const char *response = "Message successfully received\n";
@@ -58,7 +60,20 @@ static void listen_messages(const int sockfd) {
     close(sockfd);
 }
 
-void init_server() {
+static void *init_server(void *arg) {
     const int sockfd = configure_server();
     listen_messages(sockfd);
+    return NULL;
+}
+
+void init_multithread_server() {
+    pthread_t thread_id;
+    const int thread = pthread_create(&thread_id, NULL, init_server, NULL);
+
+    if (thread != 0) {
+        perror("Error creating thread for server");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_detach(thread_id);
 }

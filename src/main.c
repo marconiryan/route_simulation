@@ -18,7 +18,12 @@ int main(const int argc, char *argv[]) {
     line_separator();
     read_router_config();
     read_links_config();
-    init_server();
+    init_multithread_server();
+
+
+    while (1) {
+
+    }
 
     return 0;
 }
