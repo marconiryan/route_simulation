@@ -17,8 +17,7 @@ static int configure_server() {
         exit(EXIT_FAILURE);
     }
 
-    struct sockaddr_in server_addr;
-    memset(&server_addr, 0, sizeof(server_addr));
+    struct sockaddr_in server_addr = {0};
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(PORT);
@@ -41,7 +40,7 @@ static void listen_messages(const int sockfd) {
         printf("Waiting for messages on port %d...\n", PORT);
         memset(buffer, 0, BUFF_SIZE);
 
-        ssize_t bytes_received = recvfrom(sockfd, buffer, BUFF_SIZE, 0, (struct sockaddr *) &client_addr, &addr_len);
+        const ssize_t bytes_received = recvfrom(sockfd, buffer, BUFF_SIZE, 0, (struct sockaddr *) &client_addr, &addr_len);
 
         if (bytes_received < 0) {
             perror("Error receiving data");
