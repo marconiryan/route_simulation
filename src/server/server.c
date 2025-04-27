@@ -10,6 +10,12 @@
 #define BUFF_SIZE 1024
 
 static int configure_server() {
+
+    if (SERVER_ROUTER == NULL) {
+        printf("Cannot configure server: Router not found\n");
+        exit(EXIT_FAILURE);
+    }
+
     const int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
     if (sockfd < 0) {
@@ -19,8 +25,14 @@ static int configure_server() {
 
     struct sockaddr_in server_addr = {0};
     server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = inet_addr(SERVER_ROUTER->ip);
+    server_addr.sin_port = htons(SERVER_ROUTER->port);
+
+    if (server_addr.sin_addr.s_addr == INADDR_NONE) {
+        perror("Invalid IP address");
+        close(sockfd);
+        exit(EXIT_FAILURE);
+    }
 
     if (bind(sockfd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
         perror("Error binding the socket");
@@ -37,7 +49,7 @@ static void listen_messages(const int sockfd) {
 
     while (1) {
         char buffer[BUFF_SIZE];
-        printf("Waiting for messages on port %d...\n", PORT);
+        printf("Waiting for messages on %s:%d...\n", SERVER_ROUTER->ip, SERVER_ROUTER->port);
         memset(buffer, 0, BUFF_SIZE);
 
         const ssize_t bytes_received = recvfrom(sockfd, buffer, BUFF_SIZE, 0, (struct sockaddr *) &client_addr, &addr_len);
@@ -64,6 +76,7 @@ static void *init_server(void *arg) {
     listen_messages(sockfd);
     return NULL;
 }
+
 
 void init_multithread_server() {
     pthread_t thread_id;

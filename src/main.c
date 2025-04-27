@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "links/links.h"
 #include "router/router.h"
 #include "utils/utils.h"
 #include "server/server.h"
 
-const char *ID;
+int SERVER_ID;
 
 int main(const int argc, char *argv[]) {
     if (argc != 2) {
@@ -12,18 +13,19 @@ int main(const int argc, char *argv[]) {
         return 1;
     }
 
-    ID = argv[1];
+    SERVER_ID = atoi(argv[1]);
 
-    printf("Hello, Router ID: %s\n\n", ID);
+    printf("Hello, Router ID: %d\n\n", SERVER_ID);
     line_separator();
     read_router_config();
     read_links_config();
     init_multithread_server();
 
-
     while (1) {
 
     }
+
+
 
     return 0;
 }

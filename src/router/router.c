@@ -7,6 +7,8 @@
 
 #define ROUTER_CONFIG_PATH "../config/roteador.config"
 
+Router *SERVER_ROUTER = NULL;
+
 static void display_router(const Router *router) {
     printf("ID: %d\n", router->id);
     printf("IP: %s\n", router->ip);
@@ -31,14 +33,18 @@ void read_router_config() {
 
     int id, port;
     char ip[16];
-    int found = 0;
 
     while (fscanf(file, "%d %d %15s", &id, &port, ip) == 3) {
-        Router *router = create_router(id, ip, port);
-        display_router(router);
-        free(router); // Prevent memory leak
-        found++;
+        if (SERVER_ID == id) {
+            SERVER_ROUTER = create_router(id, ip, port);
+            display_router(SERVER_ROUTER);
+        }
     }
 
     fclose(file);
+}
+
+void clear_router_config() {
+    free(SERVER_ROUTER);
+    SERVER_ROUTER = NULL;
 }
