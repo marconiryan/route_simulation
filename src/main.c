@@ -7,7 +7,9 @@
 
 int SERVER_ID;
 
+
 int main(const int argc, char *argv[]) {
+
     if (argc != 2) {
         fprintf(stderr, "Error: Please provide an ID as an argument.\n");
         return 1;

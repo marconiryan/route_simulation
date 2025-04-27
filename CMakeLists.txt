@@ -17,4 +17,6 @@ add_executable(
         src/queue/queue.h
         src/client/client.c
         src/client/client.h
+        src/blocking-queue/blocking-queue.c
+        src/blocking-queue/blocking-queue.h
 )
