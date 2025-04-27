@@ -3,6 +3,7 @@
 
 extern int SERVER_ID;
 
+
 typedef struct {
     int id;
     char ip[16];
