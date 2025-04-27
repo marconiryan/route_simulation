@@ -14,4 +14,6 @@ void read_router_config();
 
 void clear_router_config();
 
+Router *get_router_by_id(int id);
+
 #endif //ROUTER_H

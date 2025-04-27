@@ -8,7 +8,7 @@
 
 #define LINKS_CONFIG_PATH "../config/enlaces.config"
 
-Queue *LINKS = NULL;
+Queue *Links = NULL;
 
 static void display_link(const Link *link) {
     line_separator();
@@ -18,7 +18,7 @@ static void display_link(const Link *link) {
 }
 
 static void display_links() {
-    const QueueNode *current_node = LINKS->head;
+    const QueueNode *current_node = Links->head;
     while (current_node != NULL) {
         const Link *link = (Link *) current_node->data;
         display_link(link);
@@ -44,7 +44,7 @@ void read_links_config() {
     int id_from, id_to, cost;
     int found = 0;
 
-    LINKS = queue_create(sizeof(Link));
+    Links = queue_create(sizeof(Link));
 
     while (fscanf(file, "%d %d %d", &id_from, &id_to, &cost) == 3) {
         Link *link = create_link(id_from, id_to, cost);
@@ -53,7 +53,7 @@ void read_links_config() {
             continue;
         }
 
-        queue_push(LINKS, link);
+        queue_push(Links, link);
         found++;
     }
 
@@ -63,6 +63,5 @@ void read_links_config() {
 }
 
 void clear_links_config() {
-    queue_free(&LINKS);
-
+    queue_free(&Links);
 }

@@ -68,3 +68,16 @@ void clear_router_config() {
     SERVER_ROUTER = NULL;
     queue_free(&Routers);
 }
+
+Router *get_router_by_id(const int id) {
+    const QueueNode *current_node = Routers->head;
+    while (current_node != NULL) {
+        Router *router = current_node->data;
+        if (router->id == id) {
+            return router;
+        }
+        current_node = current_node->next;
+    }
+
+    return NULL;
+}

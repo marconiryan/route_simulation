@@ -15,4 +15,6 @@ add_executable(
         src/server/server.h
         src/queue/queue.c
         src/queue/queue.h
+        src/client/client.c
+        src/client/client.h
 )
