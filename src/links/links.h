@@ -9,5 +9,6 @@ typedef struct {
 
 
 void read_links_config();
+void clear_links_config();
 
 #endif //LINKS_H

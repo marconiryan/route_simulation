@@ -4,13 +4,26 @@
 #include <stdlib.h>
 
 #include "../utils/utils.h"
+#include "../queue/queue.h"
 
 #define LINKS_CONFIG_PATH "../config/enlaces.config"
 
+Queue *LINKS = NULL;
+
 static void display_link(const Link *link) {
+    line_separator();
     printf("ID from: %d\n", link->from);
     printf("ID to: %d\n", link->to);
     printf("Cost: %d \n", link->cost);
+}
+
+static void display_links() {
+    const QueueNode *current_node = LINKS->head;
+    while (current_node != NULL) {
+        const Link *link = (Link *) current_node->data;
+        display_link(link);
+        current_node = current_node->next;
+    }
 }
 
 static Link *create_link(const int from, const int to, const int cost) {
@@ -31,18 +44,25 @@ void read_links_config() {
     int id_from, id_to, cost;
     int found = 0;
 
+    LINKS = queue_create(sizeof(Link));
+
     while (fscanf(file, "%d %d %d", &id_from, &id_to, &cost) == 3) {
-        line_separator();
         Link *link = create_link(id_from, id_to, cost);
 
         if (!link) {
             continue;
         }
 
-        display_link(link);
-        free(link); // Prevent memory leak
+        queue_push(LINKS, link);
         found++;
     }
 
+    display_links();
+
     fclose(file);
+}
+
+void clear_links_config() {
+    queue_free(&LINKS);
+
 }

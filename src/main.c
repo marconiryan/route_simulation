@@ -25,5 +25,8 @@ int main(const int argc, char *argv[]) {
 
     }
 
+    clear_router_config();
+    clear_links_config();
+
     return 0;
 }
