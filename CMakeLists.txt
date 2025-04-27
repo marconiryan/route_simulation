@@ -19,4 +19,8 @@ add_executable(
         src/client/client.h
         src/blocking-queue/blocking-queue.c
         src/blocking-queue/blocking-queue.h
+        src/terminal/terminal.c
+        src/terminal/terminal.h
+        src/message/message.c
+        src/message/message.h
 )

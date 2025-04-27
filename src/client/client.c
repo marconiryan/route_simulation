@@ -1,3 +1,4 @@
+#include "client.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,11 +6,11 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include "../router/router.h"
+#include "../message/message.h"
 
 #define BUFF_SIZE 1024
 #define TIMEOUT_SECONDS 1
 
-volatile
 
 static void send_message(const Router *router, const char *message) {
     const int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -39,7 +40,8 @@ static void send_message(const Router *router, const char *message) {
         exit(EXIT_FAILURE);
     }
 
-    const ssize_t bytes_sent = sendto(sockfd, message, strlen(message), 0, (struct sockaddr *) &server_addr, sizeof(server_addr));
+    const ssize_t bytes_sent = sendto(sockfd, message, strlen(message), 0, (struct sockaddr *) &server_addr,
+                                      sizeof(server_addr));
 
     printf("Sent %zd bytes to %s:%d\n", bytes_sent, router->ip, router->port);
     printf("Message: %s\n", message);
@@ -49,13 +51,36 @@ static void send_message(const Router *router, const char *message) {
     close(sockfd);
 }
 
-void send_message_to_router_id(const int id, const char *message) {
-    const Router *router  = get_router_by_id(id);
+static void send_message_to_router_id(const int id, const char *message) {
+    const Router *router = get_router_by_id(id);
 
-    if  (router == NULL) {
+    if (router == NULL) {
         fprintf(stderr, "Error: Router ID %d not found\n", id);
         return;
     }
 
     send_message(router, message);
 }
+
+static void check_output_messages() {
+    const Message *message = blocking_queue_pop(OutputQueue);
+
+    if (message->type != DATA) {
+        return;
+    }
+
+    send_message_to_router_id(message->to_id, message->payload);
+}
+
+void init_multithread_client() {
+    pthread_t thread_id;
+    const int thread = pthread_create(&thread_id, NULL, check_output_messages, NULL);
+
+    if (thread != 0) {
+        perror("Error creating thread for client");
+        exit(EXIT_FAILURE);
+    }
+
+    pthread_detach(thread_id);
+}
+

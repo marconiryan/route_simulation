@@ -65,3 +65,74 @@ void read_links_config() {
 void clear_links_config() {
     queue_free(&Links);
 }
+
+bool has_neighbor(const int id) {
+    const QueueNode *current_node = Links->head;
+    while (current_node != NULL) {
+        const Link *link = current_node->data;
+        if (link->from == id) {
+            return true;
+        }
+        current_node = current_node->next;
+    }
+    return false;
+}
+
+int count_neighbors(const int id) {
+    const QueueNode *current_node = Links->head;
+    int count = 0;
+    while (current_node != NULL) {
+        const Link *link = current_node->data;
+        if (link->from == id) {
+            count++;
+        }
+        current_node = current_node->next;
+    }
+    return count;
+}
+
+Link *get_neighbors_by_id(const int id) {
+    const int count = count_neighbors(id);
+
+    Link* neighbors = malloc(sizeof(Link) * count);
+    if (neighbors == NULL) {
+        return NULL;
+    }
+
+    const QueueNode *current_node = Links->head;
+    int i = 0;
+    while (current_node != NULL) {
+        const Link *link = current_node->data;
+        if (link->from == id) {
+            neighbors[i++] = *link;
+        }
+        current_node = current_node->next;
+    }
+
+    return neighbors;
+}
+
+bool is_neighbor(const int id_from, const int id_to) {
+    const QueueNode *current_node = Links->head;
+    while (current_node != NULL) {
+        const Link *link = current_node->data;
+        if (link->from == id_from && link->to == id_to) {
+            return true;
+        }
+        current_node = current_node->next;
+    }
+    return false;
+}
+
+Link *get_link_by_id(const int id) {
+    const QueueNode *current_node = Links->head;
+    while (current_node != NULL) {
+        Link *link = current_node->data;
+        if (link->from == id) {
+            return link;
+        }
+        current_node = current_node->next;
+    }
+
+    return NULL;
+}

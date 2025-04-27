@@ -1,11 +1,9 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "../queue/queue.h"
-#include "../links/links.h"
-#include "../router/router.h"
+#include "../blocking-queue/blocking-queue.h"
+extern BlockingQueue *OutputQueue;
 
-extern Queue *Links;
-extern Queue *Routers;
+void init_multithread_client();
 
 #endif //CLIENT_H
