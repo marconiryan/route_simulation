@@ -13,4 +13,6 @@ add_executable(
         src/utils/utils.h
         src/server/server.c
         src/server/server.h
+        src/linked-list/linked_list.c
+        src/linked-list/linked_list.h
 )

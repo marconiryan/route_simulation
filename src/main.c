@@ -17,8 +17,8 @@ int main(const int argc, char *argv[]) {
 
     printf("Hello, Router ID: %d\n\n", SERVER_ID);
     line_separator();
-    read_router_config();
     read_links_config();
+    read_router_config();
     init_multithread_server();
 
     while (1) {
