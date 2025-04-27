@@ -63,13 +63,15 @@ static void send_message_to_router_id(const int id, const char *message) {
 }
 
 static void check_output_messages() {
-    const Message *message = blocking_queue_pop(OutputQueue);
+    while (1) {
+        const Message *message = blocking_queue_pop(OutputQueue);
 
-    if (message->type != DATA) {
-        return;
+        if (message == NULL || message->type != DATA) {
+            return;
+        }
+
+        send_message_to_router_id(message->to_id, message->payload);
     }
-
-    send_message_to_router_id(message->to_id, message->payload);
 }
 
 void init_multithread_client() {
@@ -83,4 +85,3 @@ void init_multithread_client() {
 
     pthread_detach(thread_id);
 }
-
