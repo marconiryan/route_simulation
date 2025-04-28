@@ -10,7 +10,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#define PAYLOAD_SIZE 1000 /**< Maximum size of the payload in a message. */
+#define PAYLOAD_SIZE 100 /**< Maximum size of the payload in a message. */
 
 #include "../blocking-queue/blocking-queue.h"
 
