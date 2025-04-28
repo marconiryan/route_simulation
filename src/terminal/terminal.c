@@ -40,15 +40,16 @@ static void send_message() {
     display_neighbors();
     int neighbor_id;
     scanf("%d", &neighbor_id);
+    getchar();  //  Remove the '\n' character left in the input buffer by scanf to prevent issues with fgets()
 
     if (!is_neighbor(SERVER_ID, neighbor_id)) {
         fprintf(stderr, "The selected neighbor is invalid\n");
         return;
     }
 
-    char message[1024];
+    char message[PAYLOAD_SIZE];
     printf("Type the message: ");
-    scanf("%s", message);
+    fgets(message, PAYLOAD_SIZE, stdin);
     enqueue_data_message(message, neighbor_id);
 }
 
