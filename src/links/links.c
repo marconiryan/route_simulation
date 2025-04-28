@@ -94,7 +94,7 @@ int count_neighbors(const int id) {
 Link *get_neighbors_by_id(const int id) {
     const int count = count_neighbors(id);
 
-    Link* neighbors = malloc(sizeof(Link) * count);
+    Link *neighbors = malloc(sizeof(Link) * count);
     if (neighbors == NULL) {
         return NULL;
     }

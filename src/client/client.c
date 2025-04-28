@@ -11,7 +11,6 @@
 #define BUFF_SIZE 1024
 #define TIMEOUT_SECONDS 1
 
-
 static void send_message(const Router *router, const char *message) {
     const int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0) {

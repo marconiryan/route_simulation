@@ -5,12 +5,14 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <bits/pthreadtypes.h>
 
 #define SEND_MESSAGE_OPTION 1
 #define EXIT_OPTION 2
 
 static void display_menu() {
+    usleep(500 * 1000);
     printf("\n========= MENU =========\n");
     printf("1. Enviar mensagem para vizinho\n");
     printf("2. Sair\n");
@@ -31,7 +33,6 @@ static void display_neighbors() {
     }
     printf("========================\n");
     printf("Escolha um vizinho: ");
-
 }
 
 static void send_message() {
@@ -62,18 +63,17 @@ static bool option_handler() {
     if (option == EXIT_OPTION) {
         return false;
     }
-    
+
     return true;
 }
 
-bool show_terminal() {
+static bool show_terminal() {
     display_menu();
     return option_handler();
 }
 
 static void init_terminal() {
     while (show_terminal()) {
-
     }
 }
 
@@ -92,7 +92,3 @@ void init_multithread_terminal() {
         exit(EXIT_FAILURE);
     }
 }
-
-
-
-
