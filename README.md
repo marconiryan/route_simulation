@@ -11,7 +11,7 @@ Each router is an independent, multithreaded process capable of:
 ## Prerequisites
 - **Operating System:** Linux
 - **Compiler:** GCC (minimum support for C11)
-- **CMake:** version 3.30 or higher (optional)
+- **CMake:** version 3.22.1 or higher (optional)
 
 ## File Structure
 - `src/` - Contains all source files and headers organized into subfolders
@@ -47,7 +47,7 @@ Each router is an independent, multithreaded process capable of:
 Alternatively, you can compile directly with `gcc`:
 
 ```bash
-gcc -o route_simulation \
+gcc -o src/route_simulation \
     src/main.c \
     src/links/links.c \
     src/router/router.c \
