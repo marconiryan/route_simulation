@@ -14,25 +14,26 @@
 static void display_menu() {
     usleep(500 * 1000);
     printf("\n========= MENU =========\n");
-    printf("1. Enviar mensagem para vizinho\n");
-    printf("2. Sair\n");
+    printf("1. Send message to neighbor\n");
+    printf("2. Exit\n");
     printf("========================\n");
-    printf("Escolha uma opção: ");
+    printf("Choose an option: ");
 }
 
 static void display_neighbors() {
     if (!has_neighbor(SERVER_ID)) {
-        printf("Nenhum vizinho encontrado\n");
+        fprintf(stderr, "No neighbors found\n");
         return;
     }
 
     const Link *neighbors = get_neighbors_by_id(SERVER_ID);
-    printf("Vizinhos disponiveis:\n");
+    printf("Available neighbors:\n");
     for (int i = 0; i < count_neighbors(SERVER_ID); i++) {
-        printf("[%d] -> custo: %d\n", neighbors[i].to, neighbors[i].cost);
+        printf("[%d] -> cost: %d\n", neighbors[i].to, neighbors[i].cost);
     }
+
     printf("========================\n");
-    printf("Escolha um vizinho: ");
+    printf("Choose a neighbor: ");
 }
 
 static void send_message() {
@@ -41,12 +42,12 @@ static void send_message() {
     scanf("%d", &neighbor_id);
 
     if (!is_neighbor(SERVER_ID, neighbor_id)) {
-        printf("O vizinho selecionado é invalido");
+        fprintf(stderr, "The selected neighbor is invalid\n");
         return;
     }
 
     char message[1024];
-    printf("Digite a mensagem: ");
+    printf("Type the message: ");
     scanf("%s", message);
     enqueue_data_message(message, neighbor_id);
 }

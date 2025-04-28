@@ -39,6 +39,7 @@ void read_router_config() {
     FILE *file = fopen(ROUTER_CONFIG_PATH, "r");
     if (!file) {
         fprintf(stderr, "Error opening '%s' file\n", ROUTER_CONFIG_PATH);
+        perror("Error opening file");
         return;
     }
 

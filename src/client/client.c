@@ -14,6 +14,7 @@
 static void send_message(const Router *router, const char *message) {
     const int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0) {
+        fprintf(stderr, "Error: Please provide an ID as an argument.\n");
         perror("Error creating the socket");
         exit(EXIT_FAILURE);
     }

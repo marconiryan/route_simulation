@@ -38,6 +38,7 @@ void read_links_config() {
     FILE *file = fopen(LINKS_CONFIG_PATH, "r");
     if (!file) {
         fprintf(stderr, "Error opening '%s' file\n", LINKS_CONFIG_PATH);
+        perror("Error opening file");
         return;
     }
 

@@ -10,9 +10,8 @@
 #define BUFF_SIZE 1024
 
 static int configure_server() {
-
     if (SERVER_ROUTER == NULL) {
-        printf("Cannot configure server: Router not found\n");
+        fprintf(stderr, "Cannot configure server: Router not found\n");
         exit(EXIT_FAILURE);
     }
 
